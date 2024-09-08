@@ -102,6 +102,7 @@ func main() {
 	}
 	r := mux.NewRouter()
 	// Define routes with proper error handling in all HTTP handlers
+	r.HandleFunc("/", rootHandler).Methods(http.MethodGet)
 	r.HandleFunc("/movies", getMovies).Methods(http.MethodGet)
 	r.HandleFunc("/movie/{id}", getMovie).Methods(http.MethodGet)
 	r.HandleFunc("/movies", createMovie).Methods(http.MethodPost)
@@ -136,6 +137,11 @@ func validateMovie(movie Movie) error {
 		return errors.New("director's first and last name are required")
 	}
 	return nil
+}
+
+// rootHandler function handles the root route
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Welcome to Movies CRUD API")
 }
 
 // getMovies function returns all movies in JSON format
